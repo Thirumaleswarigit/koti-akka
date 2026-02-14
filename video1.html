@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Special</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffccd5,#ff8fab);
+    font-family:Arial;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:360px;
+    transition:0.5s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.page{ display:none; }
+.active{ display:block; }
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    margin:8px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+#yesBtn{ font-size:16px; }
+#noBtn{ position:relative; }
+
+/* ❤️ FIXED HEART */
+.heart{
+    position:relative;
+    width:150px;
+    height:150px;
+    margin:20px auto;
+    background:#ff4d6d;
+    transform:rotate(-45deg);
+    animation:beat 1s infinite;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.heart:before,
+.heart:after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    background:#ff4d6d;
+    border-radius:50%;
+    z-index:0;
+}
+
+.heart:before{ top:-75px; left:0; }
+.heart:after{ left:75px; top:0; }
+
+@keyframes beat{
+0%{transform:rotate(-45deg) scale(1);}
+50%{transform:rotate(-45deg) scale(1.1);}
+100%{transform:rotate(-45deg) scale(1);}
+}
+
+/* Text inside heart */
+.heart-content{
+    position:relative;
+    z-index:2;
+    transform:rotate(45deg);
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+    text-align:center;
+    line-height:1.5;
+}
+
+.gift-btn{
+    font-size:28px;
+    background:#fff0f3;
+    color:#ff4d6d;
+    border:2px solid #ff4d6d;
+}
+
+input{
+    padding:8px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin:5px;
+}
+
+.love-letter{
+    margin-top:15px;
+    color:#ff4d6d;
+    font-weight:bold;
+    line-height:1.6;
+}
+
+video, audio{
+    width:100%;
+    border-radius:15px;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+<h2>Will you be my Valentine? 💕</h2>
+<button id="yesBtn" onclick="show('page2')">Yes ❤️</button>
+<button id="noBtn" onclick="moveNo()">No 😢</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+<h1>💖 Happy Valentine’s Day 💖</h1>
+
+<div class="heart">
+<div class="heart-content">
+Dev ❤️<br>Kameswari
+</div>
+</div>
+
+<p>You are my today and all of my tomorrows 💕</p>
+
+<button onclick="show('page3')">See Next 🎁</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+<h3>🎁 Choose Your Gift</h3>
+<button class="gift-btn" onclick="show('gift1')">🎁</button>
+<button class="gift-btn" onclick="show('gift2')">🎥</button>
+<button class="gift-btn" onclick="show('gift3')">🎵</button>
+</div>
+
+<!-- GIFT 1 -->
+<div id="gift1" class="page">
+<h3>🔐 Secret Gift</h3>
+
+<div id="unlockSection">
+<p>Enter Special Date:</p>
+<input type="date" id="dateInput">
+<p>Solve Puzzle: 5 + 3 = ?</p>
+<input type="number" id="puzzleInput">
+<br>
+<button onclick="unlockGift()">Unlock ❤️</button>
+</div>
+
+<div id="gift1Message" class="love-letter" style="display:none;">
+💌 My Sweetest Love 💌 <br><br>
+From the moment you entered my life, everything changed beautifully.  
+Your smile is my peace, your voice is my favorite sound.  
+I promise to love you forever. ❤️  
+<br><br>
+<button onclick="backToGifts()">Back to Gifts 🎁</button>
+</div>
+</div>
+
+<!-- GIFT 2 VIDEO -->
+<div id="gift2" class="page">
+<h3>🎥 A Special Video For You</h3>
+
+<video controls>
+<source src="./file.mp4" type="video/mp4">
+Your browser does not support video.
+</video>
+
+<button onclick="show('page3')">Back to Gifts 🎁</button>
+</div>
+
+<!-- GIFT 3 AUDIO -->
+<div id="gift3" class="page">
+<h3>🎵 Good msg for you</h3>
+
+<audio controls>
+<source src="./voice.mp4" type="audio/mpeg">
+Your browser does not support audio.
+</audio>
+
+<p class="love-letter">
+Every song reminds me of you 💕
+</p>
+
+<button onclick="show('page3')">Back to Gifts 🎁</button>
+</div>
+
+</div>
+
+<script>
+
+function show(id){
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
+document.getElementById(id).classList.add("active");
+}
+
+function moveNo(){
+let noBtn=document.getElementById("noBtn");
+let yesBtn=document.getElementById("yesBtn");
+
+let x=Math.random()*200-100;
+let y=Math.random()*200-100;
+
+noBtn.style.transform=`translate(${x}px,${y}px)`;
+
+let currentSize=parseInt(window.getComputedStyle(yesBtn).fontSize);
+yesBtn.style.fontSize=(currentSize+4)+"px";
+}
+
+function unlockGift(){
+let date=document.getElementById("dateInput").value;
+let puzzle=document.getElementById("puzzleInput").value;
+
+if(date==="2023-01-02" && puzzle==8){
+document.getElementById("unlockSection").style.display="none";
+document.getElementById("gift1Message").style.display="block";
+}else{
+alert("Wrong Answer 😢 Try Again");
+}
+}
+
+function backToGifts(){
+document.getElementById("unlockSection").style.display="block";
+document.getElementById("gift1Message").style.display="none";
+document.getElementById("dateInput").value="";
+document.getElementById("puzzleInput").value="";
+show('page3');
+}
+
+</script>
+
+</body>
+</html>
